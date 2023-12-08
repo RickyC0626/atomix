@@ -403,7 +403,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/adapter-auto@npm:^2.0.0":
+"@sveltejs/adapter-auto@npm:^2.1.1":
   version: 2.1.1
   resolution: "@sveltejs/adapter-auto@npm:2.1.1"
   dependencies:
@@ -872,7 +872,7 @@ __metadata:
   resolution: "atomix-web@workspace:."
   dependencies:
     "@playwright/test": "npm:^1.28.1"
-    "@sveltejs/adapter-auto": "npm:^2.0.0"
+    "@sveltejs/adapter-auto": "npm:^2.1.1"
     "@sveltejs/kit": "npm:^1.27.4"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
     "@typescript-eslint/parser": "npm:^6.0.0"
