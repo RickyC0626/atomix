@@ -11,7 +11,9 @@
   <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/rickyc0626/atomix?style=flat-square">
 </h4> -->
 
+<img align="center" src="./assets/periodic-table.png" alt="Periodic Table UI">
+
 ## Roadmap
 
-- [ ] Table of elements with sleek UI
+- [X] Table of elements with sleek UI
 - [ ] Interactive popups for each element
