@@ -23,35 +23,7 @@ export type PeriodicElement = {
   gridY: number;
 };
 
-export type PlaceholderElement = {
-  category: ElementCategory;
-  gridX: number;
-  gridY: number;
-};
-
 export const elements: PeriodicElement[] = [
-  {
-    name: "",
-    symbol: "",
-    atomic_mass: 0,
-    atomic_number: 0,
-    group: 3,
-    period: 6,
-    category: ElementCategory.Lanthanide,
-    gridX: 3,
-    gridY: 6,
-  },
-  {
-    name: "",
-    symbol: "",
-    atomic_mass: 0,
-    atomic_number: 0,
-    group: 3,
-    period: 7,
-    category: ElementCategory.Actinide,
-    gridX: 3,
-    gridY: 7,
-  },
   {
     name: "Hydrogen",
     symbol: "H",
