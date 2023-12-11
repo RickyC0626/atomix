@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { ElementCategory, elements } from "$lib/periodic-table";
+  import { ElementCategory, elements, type PeriodicElement } from "$lib/periodic-table";
+	import ElementDetailsModal from "../components/ElementDetailsModal.svelte";
 	import GridCell from "../components/GridCell.svelte";
 
   const backgroundColors = {
@@ -27,12 +28,82 @@
     [ElementCategory.PostTransitionMetal]: "outline-green-500/50",
     [ElementCategory.TransitionMetal]: "outline-blue-500/50",
   };
+
+  let showModal = false;
+  let selectedElement: PeriodicElement;
 </script>
 
 <div class="
   w-screen h-screen p-4 overflow-auto grid place-items-center
   bg-gradient-to-tr from-zinc-900 to-gray-900
 ">
+  <ElementDetailsModal bind:showModal>
+    {#if selectedElement}
+      <div class="mt-4 grid grid-cols-2 gap-4">
+        <div class="
+          h-[30rem] rounded-md grid place-items-center
+          {backgroundColors[selectedElement.category]} bg-opacity-50
+        ">
+          <div class="text-center grid gap-2">
+            <h2 class="text-4xl">
+              {selectedElement.atomic_number}
+            </h2>
+            <h2 class="text-6xl font-bold">
+              {selectedElement.symbol}
+            </h2>
+            <h2 class="text-4xl">
+              {selectedElement.name}
+            </h2>
+            <h2 class="text-2xl">
+              {selectedElement.category}
+            </h2>
+          </div>
+        </div>
+        <div>
+          <table class="table-fixed w-full">
+            <tbody class="[&>*]:[&>*]:p-2 [&>*:not(:last-child)]:border-b [&>*]:border-gray-600">
+              <tr>
+                <td class="font-bold">Atomic Mass</td>
+                <td>{selectedElement.atomic_mass}</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Standard State</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Electron Configuration</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Electronegativity (Pauling scale)</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Electron Affinity</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Atomic Radius</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Melting Point</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Boiling Point</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="font-bold">Density</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    {/if}
+  </ElementDetailsModal>
   <div class="w-fit p-2 grid grid-cols-[repeat(18,min-content)] gap-1.5">
     {#each elements as elem}
       <GridCell
@@ -41,6 +112,10 @@
         backgroundColor={backgroundColors[elem.category]}
         outlineColor={outlineColors[elem.category]}
         hoverEffects
+        onClick={() => {
+          showModal = true;
+          selectedElement = elem;
+        }}
       >
         <div class="w-full h-full flex flex-col items-center">
           <div class="w-full h-fit flex items-center justify-between">
