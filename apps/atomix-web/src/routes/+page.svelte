@@ -2,54 +2,30 @@
   import { ElementCategory, elements } from "$lib/periodic-table";
 	import GridCell from "../components/GridCell.svelte";
 
-  const setBackgroundColor = (category: ElementCategory) => {
-    switch(category) {
-      case ElementCategory.Actinide:
-        return "bg-teal-700";
-      case ElementCategory.AlkaliMetal:
-        return "bg-red-700";
-      case ElementCategory.AlkalineEarthMetal:
-        return "bg-violet-700";
-      case ElementCategory.Halogen:
-        return "bg-orange-700";
-      case ElementCategory.Lanthanide:
-        return "bg-cyan-700";
-      case ElementCategory.Metalloid:
-        return "bg-lime-700";
-      case ElementCategory.NobleGas:
-        return "bg-amber-700"
-      case ElementCategory.Nonmetal:
-        return "bg-yellow-600";
-      case ElementCategory.PostTransitionMetal:
-        return "bg-green-700";
-      case ElementCategory.TransitionMetal:
-        return "bg-blue-700";
-    }
+  const backgroundColors = {
+    [ElementCategory.Actinide]: "bg-teal-700",
+    [ElementCategory.AlkaliMetal]: "bg-red-700",
+    [ElementCategory.AlkalineEarthMetal]: "bg-violet-700",
+    [ElementCategory.Halogen]: "bg-orange-700",
+    [ElementCategory.Lanthanide]: "bg-cyan-700",
+    [ElementCategory.Metalloid]: "bg-lime-700",
+    [ElementCategory.NobleGas]: "bg-amber-700",
+    [ElementCategory.Nonmetal]: "bg-yellow-600",
+    [ElementCategory.PostTransitionMetal]: "bg-green-700",
+    [ElementCategory.TransitionMetal]: "bg-blue-700",
   };
 
-  const setOutlineColor = (category: ElementCategory) => {
-    switch(category) {
-      case ElementCategory.Actinide:
-        return "outline-teal-500/50";
-      case ElementCategory.AlkaliMetal:
-        return "outline-red-500/50";
-      case ElementCategory.AlkalineEarthMetal:
-        return "outline-violet-500/50";
-      case ElementCategory.Halogen:
-        return "outline-orange-500/50";
-      case ElementCategory.Lanthanide:
-        return "outline-cyan-500/50";
-      case ElementCategory.Metalloid:
-        return "outline-lime-500/50";
-      case ElementCategory.NobleGas:
-        return "outline-amber-500/50";
-      case ElementCategory.Nonmetal:
-        return "outline-yellow-400/50";
-      case ElementCategory.PostTransitionMetal:
-        return "outline-green-500/50";
-      case ElementCategory.TransitionMetal:
-        return "outline-blue-500/50";
-    }
+  const outlineColors = {
+    [ElementCategory.Actinide]: "outline-teal-500/50",
+    [ElementCategory.AlkaliMetal]: "outline-red-500/50",
+    [ElementCategory.AlkalineEarthMetal]: "outline-violet-500/50",
+    [ElementCategory.Halogen]: "outline-orange-500/50",
+    [ElementCategory.Lanthanide]: "outline-cyan-500/50",
+    [ElementCategory.Metalloid]: "outline-lime-500/50",
+    [ElementCategory.NobleGas]: "outline-amber-500/50",
+    [ElementCategory.Nonmetal]: "outline-yellow-400/50",
+    [ElementCategory.PostTransitionMetal]: "outline-green-500/50",
+    [ElementCategory.TransitionMetal]: "outline-blue-500/50",
   };
 </script>
 
@@ -62,8 +38,8 @@
       <GridCell
         gridX={elem.gridX}
         gridY={elem.gridY}
-        backgroundColor={setBackgroundColor(elem.category)}
-        outlineColor={setOutlineColor(elem.category)}
+        backgroundColor={backgroundColors[elem.category]}
+        outlineColor={outlineColors[elem.category]}
         hoverEffects
       >
         <div class="w-full h-full flex flex-col items-center">
@@ -98,8 +74,8 @@
     <GridCell
       gridX={3}
       gridY={6}
-      backgroundColor={setBackgroundColor(ElementCategory.Lanthanide)}
-      outlineColor={setOutlineColor(ElementCategory.Lanthanide)}
+      backgroundColor={backgroundColors[ElementCategory.Lanthanide]}
+      outlineColor={outlineColors[ElementCategory.Lanthanide]}
     >
       <div class="w-full h-full grid place-items-center">
         <span class="text-zinc-200 font-bold">
@@ -110,8 +86,8 @@
     <GridCell
       gridX={3}
       gridY={7}
-      backgroundColor={setBackgroundColor(ElementCategory.Actinide)}
-      outlineColor={setOutlineColor(ElementCategory.Actinide)}
+      backgroundColor={backgroundColors[ElementCategory.Actinide]}
+      outlineColor={outlineColors[ElementCategory.Actinide]}
     >
       <div class="w-full h-full grid place-items-center">
         <span class="text-zinc-200 font-bold">
