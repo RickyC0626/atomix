@@ -34,7 +34,8 @@ export type PeriodicElement = {
   gridY: number;
 };
 
-export type PeriodicTableFilter = "category" | "phase";
+export type PeriodicTableFilter =
+  "category" | "phase" | "electron_configuration";
 
 export const elements: PeriodicElement[] = [
   {

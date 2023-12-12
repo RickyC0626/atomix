@@ -31,6 +31,9 @@
       case "phase":
         currentFilter = "phase";
         break;
+      case "electron_configuration":
+        currentFilter = "electron_configuration";
+        break;
     }
   };
 
@@ -38,6 +41,7 @@
     element: PeriodicElement, filter: PeriodicTableFilter
   ) => {
     switch(filter) {
+      case "electron_configuration":
       case "category":
         return categoryBackgroundColors[element.category];
       case "phase":
@@ -49,12 +53,30 @@
     element: PeriodicElement, filter: PeriodicTableFilter
   ) => {
     switch(filter) {
+      case "electron_configuration":
       case "category":
         return categoryOutlineColors[element.category];
       case "phase":
         return phaseOutlineColors[element.phase];
     }
   }
+
+  const processElectronConfiguration = (config: string) => {
+    const shells = config.split(" ");
+
+    const processed = shells.map(str => {
+      const shell = str.match(/(\d+)([spdf])(\d+)/);
+
+      if(shell) {
+        const [, number, subshell, electrons] = shell;
+        return `<span>${number}${subshell}<sup>${electrons}</sup></span>`;
+      }
+
+      return str;
+    });
+
+    return processed.join("");
+  };
 </script>
 
 <div class="
@@ -88,15 +110,17 @@
             <tbody class="[&>*]:[&>*]:p-2 [&>*:not(:last-child)]:border-b [&>*]:border-gray-600">
               <tr>
                 <td class="font-bold">Atomic Mass</td>
-                <td>{selectedElement.atomic_mass}</td>
+                <td class="font-mono">{selectedElement.atomic_mass}</td>
               </tr>
               <tr>
                 <td class="font-bold">Standard Phase</td>
-                <td>{selectedElement.phase}</td>
+                <td class="font-mono">{selectedElement.phase}</td>
               </tr>
               <tr>
                 <td class="font-bold">Electron Configuration</td>
-                <td>{selectedElement.electron_configuration}</td>
+                <td class="font-mono">
+                  {@html processElectronConfiguration(selectedElement.electron_configuration)}
+                </td>
               </tr>
               <tr>
                 <td class="font-bold">Electronegativity (Pauling scale)</td>
@@ -167,6 +191,8 @@
                   {elem.category}
                 {:else if currentFilter === "phase"}
                   {elem.phase}
+                {:else if currentFilter === "electron_configuration"}
+                  {@html processElectronConfiguration(elem.electron_configuration)}
                 {/if}
               </span>
             </div>
@@ -178,13 +204,13 @@
       gridX={3}
       gridY={6}
       backgroundColor={
-        currentFilter === "category" ?
+        currentFilter === "category" || currentFilter === "electron_configuration" ?
           categoryBackgroundColors[ElementCategory.Lanthanide] :
         currentFilter === "phase" ?
           phaseBackgroundColors[ElementPhase.Solid] : ""
       }
       outlineColor={
-        currentFilter === "category" ?
+        currentFilter === "category" || currentFilter === "electron_configuration" ?
           categoryOutlineColors[ElementCategory.Lanthanide] :
         currentFilter === "phase" ?
           phaseOutlineColors[ElementPhase.Solid] : ""
@@ -200,13 +226,13 @@
       gridX={3}
       gridY={7}
       backgroundColor={
-        currentFilter === "category" ?
+        currentFilter === "category" || currentFilter === "electron_configuration" ?
           categoryBackgroundColors[ElementCategory.Actinide] :
         currentFilter === "phase" ?
           phaseBackgroundColors[ElementPhase.Solid] : ""
       }
       outlineColor={
-        currentFilter === "category" ?
+        currentFilter === "category" || currentFilter === "electron_configuration" ?
           categoryOutlineColors[ElementCategory.Actinide] :
         currentFilter === "phase" ?
           phaseOutlineColors[ElementPhase.Solid] : ""
@@ -236,6 +262,12 @@
         </option>
         <option value="phase" selected={currentFilter === "phase"}>
           Phase
+        </option>
+        <option
+          value="electron_configuration"
+          selected={currentFilter === "electron_configuration"}
+        >
+          Electron Configuration
         </option>
       </select>
     </div>
