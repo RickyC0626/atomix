@@ -67,8 +67,8 @@
                 <td>{selectedElement.atomic_mass}</td>
               </tr>
               <tr>
-                <td class="font-bold">Standard State</td>
-                <td></td>
+                <td class="font-bold">Standard Phase</td>
+                <td>{selectedElement.phase}</td>
               </tr>
               <tr>
                 <td class="font-bold">Electron Configuration</td>
