@@ -117,11 +117,7 @@
               {selectedElement.name}
             </h2>
             <h2 class="text-2xl">
-              {#if currentFilter === "category"}
-                {selectedElement.category}
-              {:else if currentFilter === "phase"}
-                {selectedElement.phase}
-              {/if}
+              {selectedElement.category}
             </h2>
           </div>
         </div>
@@ -138,7 +134,7 @@
               </tr>
               <tr>
                 <td class="font-bold">Electron Configuration</td>
-                <td></td>
+                <td>{selectedElement.electron_configuration}</td>
               </tr>
               <tr>
                 <td class="font-bold">Electronegativity (Pauling scale)</td>
