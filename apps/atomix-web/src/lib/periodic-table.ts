@@ -33,6 +33,8 @@ export type PeriodicElement = {
   gridY: number;
 };
 
+export type PeriodicTableFilter = "category" | "phase";
+
 export const elements: PeriodicElement[] = [
   {
     name: "Hydrogen",

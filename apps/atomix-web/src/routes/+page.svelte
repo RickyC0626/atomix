@@ -1,9 +1,15 @@
 <script lang="ts">
-  import { ElementCategory, elements, type PeriodicElement } from "$lib/periodic-table";
+  import {
+    ElementCategory,
+    ElementPhase,
+    elements,
+    type PeriodicElement,
+    type PeriodicTableFilter
+  } from "$lib/periodic-table";
 	import ElementDetailsModal from "../components/ElementDetailsModal.svelte";
 	import GridCell from "../components/GridCell.svelte";
 
-  const backgroundColors = {
+  const categoryBackgroundColors = {
     [ElementCategory.Actinide]: "bg-teal-700",
     [ElementCategory.AlkaliMetal]: "bg-red-700",
     [ElementCategory.AlkalineEarthMetal]: "bg-violet-700",
@@ -16,7 +22,7 @@
     [ElementCategory.TransitionMetal]: "bg-blue-700",
   };
 
-  const outlineColors = {
+  const categoryOutlineColors = {
     [ElementCategory.Actinide]: "outline-teal-500/50",
     [ElementCategory.AlkaliMetal]: "outline-red-500/50",
     [ElementCategory.AlkalineEarthMetal]: "outline-violet-500/50",
@@ -29,8 +35,64 @@
     [ElementCategory.TransitionMetal]: "outline-blue-500/50",
   };
 
+  const phaseBackgroundColors = {
+    [ElementPhase.Gas]: "bg-green-600",
+    [ElementPhase.Liquid]: "bg-rose-600",
+    [ElementPhase.Solid]: "bg-neutral-600",
+    [ElementPhase.ExpectedGas]: "bg-gradient-to-b from-zinc-800/50 via-40% via-zinc-800/50 to-green-800/50",
+    [ElementPhase.ExpectedLiquid]: "",
+    [ElementPhase.ExpectedSolid]: "bg-gradient-to-b from-zinc-800/50 via-40% via-zinc-800/50 to-neutral-600/50",
+  };
+
+  const phaseOutlineColors = {
+    [ElementPhase.Gas]: "outline-green-500/50",
+    [ElementPhase.Liquid]: "outline-rose-500/50",
+    [ElementPhase.Solid]: "outline-neutral-500/50",
+    [ElementPhase.ExpectedGas]: "outline-green-500/50",
+    [ElementPhase.ExpectedLiquid]: "",
+    [ElementPhase.ExpectedSolid]: "outline-neutral-500/50",
+  };
+
   let showModal = false;
   let selectedElement: PeriodicElement;
+  let currentFilter: PeriodicTableFilter = "category";
+
+  const handleFilterChange = (e: Event & {
+    currentTarget: EventTarget & HTMLSelectElement;
+  }) => {
+    const newFilter = e.currentTarget.value;
+
+    switch(newFilter) {
+      case "category":
+        currentFilter = "category";
+        break;
+      case "phase":
+        currentFilter = "phase";
+        break;
+    }
+  };
+
+  const renderFilteredBackgroundColors = (
+    element: PeriodicElement, filter: PeriodicTableFilter
+  ) => {
+    switch(filter) {
+      case "category":
+        return categoryBackgroundColors[element.category];
+      case "phase":
+        return phaseBackgroundColors[element.phase];
+    }
+  };
+
+  const renderFilteredOutlineColors = (
+    element: PeriodicElement, filter: PeriodicTableFilter
+  ) => {
+    switch(filter) {
+      case "category":
+        return categoryOutlineColors[element.category];
+      case "phase":
+        return phaseOutlineColors[element.phase];
+    }
+  }
 </script>
 
 <div class="
@@ -41,8 +103,8 @@
     {#if selectedElement}
       <div class="mt-4 grid grid-cols-2 gap-4">
         <div class="
-          h-[30rem] rounded-md grid place-items-center
-          {backgroundColors[selectedElement.category]} bg-opacity-50
+          h-[30rem] rounded-md grid place-items-center bg-opacity-50
+          {renderFilteredBackgroundColors(selectedElement, currentFilter)}
         ">
           <div class="text-center grid gap-2">
             <h2 class="text-4xl">
@@ -55,7 +117,11 @@
               {selectedElement.name}
             </h2>
             <h2 class="text-2xl">
-              {selectedElement.category}
+              {#if currentFilter === "category"}
+                {selectedElement.category}
+              {:else if currentFilter === "phase"}
+                {selectedElement.phase}
+              {/if}
             </h2>
           </div>
         </div>
@@ -104,13 +170,13 @@
       </div>
     {/if}
   </ElementDetailsModal>
-  <div class="w-fit p-2 grid grid-cols-[repeat(18,min-content)] gap-1.5">
+  <div class="relative w-fit p-2 grid grid-cols-[repeat(18,min-content)] gap-1.5">
     {#each elements as elem}
       <GridCell
         gridX={elem.gridX}
         gridY={elem.gridY}
-        backgroundColor={backgroundColors[elem.category]}
-        outlineColor={outlineColors[elem.category]}
+        backgroundColor={renderFilteredBackgroundColors(elem, currentFilter)}
+        outlineColor={renderFilteredOutlineColors(elem, currentFilter)}
         hoverEffects
         onClick={() => {
           showModal = true;
@@ -139,7 +205,11 @@
             </div>
             <div class="flex text-center">
               <span class="grow text-zinc-200 text-[8px]">
-                {elem.category}
+                {#if currentFilter === "category"}
+                  {elem.category}
+                {:else if currentFilter === "phase"}
+                  {elem.phase}
+                {/if}
               </span>
             </div>
           </div>
@@ -149,8 +219,18 @@
     <GridCell
       gridX={3}
       gridY={6}
-      backgroundColor={backgroundColors[ElementCategory.Lanthanide]}
-      outlineColor={outlineColors[ElementCategory.Lanthanide]}
+      backgroundColor={
+        currentFilter === "category" ?
+          categoryBackgroundColors[ElementCategory.Lanthanide] :
+        currentFilter === "phase" ?
+          phaseBackgroundColors[ElementPhase.Solid] : ""
+      }
+      outlineColor={
+        currentFilter === "category" ?
+          categoryOutlineColors[ElementCategory.Lanthanide] :
+        currentFilter === "phase" ?
+          phaseOutlineColors[ElementPhase.Solid] : ""
+      }
     >
       <div class="w-full h-full grid place-items-center">
         <span class="text-zinc-200 font-bold">
@@ -161,8 +241,18 @@
     <GridCell
       gridX={3}
       gridY={7}
-      backgroundColor={backgroundColors[ElementCategory.Actinide]}
-      outlineColor={outlineColors[ElementCategory.Actinide]}
+      backgroundColor={
+        currentFilter === "category" ?
+          categoryBackgroundColors[ElementCategory.Actinide] :
+        currentFilter === "phase" ?
+          phaseBackgroundColors[ElementPhase.Solid] : ""
+      }
+      outlineColor={
+        currentFilter === "category" ?
+          categoryOutlineColors[ElementCategory.Actinide] :
+        currentFilter === "phase" ?
+          phaseOutlineColors[ElementPhase.Solid] : ""
+      }
     >
       <div class="w-full h-full grid place-items-center">
         <span class="text-zinc-200 font-bold">
@@ -170,5 +260,26 @@
         </span>
       </div>
     </GridCell>
+    <div class="absolute flex flex-col gap-2" style="grid-column: 13;">
+      <label for="filter-select" class="text-zinc-200 font-bold">
+        Choose a filter:
+      </label>
+      <select
+        name="filters"
+        id="filter-select"
+        on:change={handleFilterChange}
+        class="
+          bg-gray-800 text-zinc-200 rounded px-3 py-2 hover:cursor-pointer
+          outline outline-1 outline-gray-700
+        "
+      >
+        <option value="category" selected={currentFilter === "category"}>
+          Category (Chemical Group)
+        </option>
+        <option value="phase" selected={currentFilter === "phase"}>
+          Phase
+        </option>
+      </select>
+    </div>
   </div>
 </div>
